@@ -1,4 +1,4 @@
-import abi from "../../contracts/abi.js";
+import abi from "../../contracts/NFTabi.js";
 import axios from "axios";
 import { ethers } from "ethers";
 
@@ -21,7 +21,7 @@ async function contractExecuteFcn(walletData, contractAddress) {
 		console.log(`- Initial count: ${initialCount}`);
 
 		// EXECUTE CONTRACT FUNCTION
-		const gasLimit = 100000;
+		const gasLimit = 600000;
 		const myContract = new ethers.Contract(contractAddress, abi, signer);
 		const incrementTx = await myContract.increment({ gasLimit: gasLimit });
 		const incrementRx = await incrementTx.wait();

@@ -1,5 +1,7 @@
-import abi from "../../contracts/abi.js";
-import bytecode from "../../contracts/bytecode.js";
+import AIabi from "../../contracts/AIabi";
+import AIbytecode from "../../contracts/AIbytecode";
+import NFTabi from "../../contracts/NFTabi";
+import NFTbytecode from "../../contracts/NFTbytecode";
 import { ContractFactory } from "ethers";
 
 async function contractDeployFcn(walletData) {
@@ -11,18 +13,30 @@ async function contractDeployFcn(walletData) {
 	const signer = provider.getSigner();
 
 	// DEPLOY SMART CONTRACT
-	let contractAddress;
+	let NFTaddress;
+	let AIPromptAddress;
 	try {
-		const gasLimit = 4000000;
+		const gasLimit = 6000000;
 
-		const myContract = new ContractFactory(abi, bytecode, signer);
-		const contractDeployTx = await myContract.deploy({ gasLimit: gasLimit });
-		const contractDeployRx = await contractDeployTx.deployTransaction.wait();
-		contractAddress = contractDeployRx.contractAddress;
-		console.log(`- Contract deployed to address: \n${contractAddress} ✅`);
+		const AIcontract = new ContractFactory(AIabi,AIbytecode,signer);
+		const NFTcontract = new ContractFactory(NFTabi,NFTbytecode,signer);
+
+		const AIcontractDeployTx = await AIcontract.deploy({ gasLimit: gasLimit });
+		const NFTcontractDeployTx = await NFTcontract.deploy({ gasLimit: gasLimit });
+
+		const AIcontractRx = await AIcontractDeployTx.deployTransaction.wait();
+		const NFTcontractRx = await NFTcontractDeployTx.deployTransaction.wait();
+
+
+		AIPromptAddress = AIcontractRx.contractAddress;
+		NFTaddress = NFTcontractRx.contractAddress;
+
+		console.log('NFT contract deployed ',NFTaddress);
+
+		console.log(`- AI Contract deployed to address: \n${AIPromptAddress} ✅`);
 	} catch (deployError) {
 		console.log(`- ${deployError.message.toString()}`);
 	}
-	return contractAddress;
+	return AIPromptAddress;
 }
 export default contractDeployFcn;

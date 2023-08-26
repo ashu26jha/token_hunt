@@ -5,8 +5,8 @@ async function walletConnectFcn() {
 	console.log(`\n=======================================`);
 
 	// ETHERS PROVIDER
-	const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-
+	let provider;
+	window.ethereum.enable().then(provider = new ethers.providers.Web3Provider(window.ethereum));
 	// SWITCH TO HEDERA TEST NETWORK
 	console.log(`- Switching network to the Hedera ${network}...🟠`);
 	let chainId;
@@ -45,7 +45,7 @@ async function walletConnectFcn() {
 			console.log(`- ${connectError.message.toString()}`);
 			return;
 		});
-
+		console.log(provider.getSigner())
 	return [selectedAccount, provider, network];
 }
 
