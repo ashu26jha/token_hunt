@@ -154,6 +154,8 @@ contract AIPrompt is IERC721Receiver, IPrngSystemContract {
         return s_proceeds[msg.sender];
     }
 
+    
+
     // WITHDRAW FUNCTION : ANUJ
 
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
