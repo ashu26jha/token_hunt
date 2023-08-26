@@ -2,16 +2,26 @@
 	"name": "hedera-example-json-rpc-metamask-contracts",
 	"version": "0.1.0",
 	"private": true,
+	"proxy": "http://localhost:3000/",
 	"dependencies": {
-		"@hashgraph/sdk": "^2.22.0",
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
+		"@hashgraph/sdk": "^2.32.0",
 		"@testing-library/jest-dom": "^5.16.5",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
-		"axios": "^1.3.4",
+		"axios": "^1.4.0",
+		"buffer": "^6.0.3",
+		"dotenv": "^16.3.1",
 		"ethers": "^5.7.2",
+		"form-data": "^4.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-dotenv": "^0.1.3",
+		"react-router-dom": "^6.15.0",
 		"react-scripts": "5.0.1",
+		"react-scroll": "^1.8.9",
+		"scroll": "^3.0.1",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
@@ -37,5 +47,8 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"dotenv-webpack": "^8.0.1"
 	}
 }
