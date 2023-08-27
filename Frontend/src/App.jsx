@@ -83,6 +83,7 @@ function App() {
 		const helloIMG = `https://ipfs.io/ipfs/${res.data.IpfsHash}`;
 		setHash(res.data.IpfsHash);
 		setImageUrl(helloIMG);
+		console.log(helloIMG);
 		console.log(res.data.IpfsHash);
 	}
 
