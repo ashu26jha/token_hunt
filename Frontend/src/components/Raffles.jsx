@@ -3,7 +3,6 @@ import { TopicMessageSubmitTransaction } from '@hashgraph/sdk';
 import { ethers } from "ethers";
 import { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
-import sampleImage from './sample.png';
 import AIabi from "../contracts/AIabi.js";
 import NFTabi from '../contracts/NFTabi'
 import hederaImage from './hedera.png';
@@ -92,7 +91,6 @@ export default function () {
         walletData();
     }, [])
 
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [activePopupIndex, setActivePopupIndex] = useState(null);
     const [participants, setParticipants] = useState('');
 
