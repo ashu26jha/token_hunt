@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import walletConnectFcn from "./components/hedera/walletConnect.js";
+
 import "./styles/App.css";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import NFTabi from "./contracts/NFTabi.js";
+
 import Home from "./components/Home/Home";
 import Raffle from "./components/Raffles";
 import { ethers } from "ethers";
@@ -12,14 +14,20 @@ import axios from 'axios';
 const JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI0MjQyZTQzYi0zODNiLTRhYjUtYWE1NC04YTc1MzIzYTY4NDQiLCJlbWFpbCI6ImFzaHV0b3NoMjZqaGFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImI2NzI4ZDNmNWRjNjhjMzRhNWY4Iiwic2NvcGVkS2V5U2VjcmV0IjoiZGM3OTJkYjZhNzVkOTI5Y2MyNDllOGZkZDE2MGFhZDI3OGQwMmI1MmJmY2Y2OTQ1NTM4NDM4MjJkMjBiOTQwOSIsImlhdCI6MTY5MjgwNzQ2M30.c4mAp57G4DXIOvuMnYCtheJl6oO2MXMqJse49KSrXYo';
 const API_TOKEN = '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'
 const NFTaddress = '0x1c89575eE52fBc3Bc2711f6a527D126616Af8890';
+const AIaddress = '0xdd791fa1BC0F9f1989e541a782c3FeCBe8C239d4';
 
 function App() {
 	const [walletData, setWalletData] = useState();
 	const [account, setAccount] = useState();
 	const [network, setNetwork] = useState();
+	const [contractAddress, setContractAddress] = useState();
 	const [contractTextSt, setContractTextSt] = useState();
+	const [executeTextSt, setExecuteTextSt] = useState();
 	const [connectLinkSt, setConnectLinkSt] = useState("");
+	const [contractLinkSt, setContractLinkSt] = useState();
+	const [executeLinkSt, setExecuteLinkSt] = useState();
 	const [walletText, setWalletText] = useState('Connect Wallet');
+	const API_KEY = "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";
 
 	const [inputtext, setInputtext] = useState("")
 	const [imageurl, setImageUrl] = useState("");
@@ -122,9 +130,9 @@ function App() {
 					<Route path="/raffle" element={<Raffle />} />
 				</Routes>
 				
-				<MyGroup fcn={connectWallet} buttonLabel={"Connect Wallet"} link={connectLinkSt} />
+				{/* <MyGroup fcn={connectWallet} buttonLabel={"Connect Wallet"} link={connectLinkSt} />
 				<MyGroup fcn={contractDeploy} buttonLabel={"Deploy Contract"} text={contractTextSt} link={contractLinkSt} />
-				<MyGroup fcn={contractExecute} buttonLabel={"Execute Contract (+1)"} text={executeTextSt} link={executeLinkSt} />
+				<MyGroup fcn={contractExecute} buttonLabel={"Execute Contract (+1)"} text={executeTextSt} link={executeLinkSt} /> */}
 			</div>
 		</Router>
 	);
