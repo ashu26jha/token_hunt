@@ -192,6 +192,19 @@ const NFTabi = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getTokenId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -422,6 +435,6 @@ const NFTabi = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
+]
 
 export default NFTabi;
