@@ -71,7 +71,6 @@ function App() {
 		const helloIMG = `https://ipfs.io/ipfs/${res.data.IpfsHash}`;
 		setHash(res.data.IpfsHash);
 		setImageUrl(helloIMG);
-		console.log(res.data.IpfsHash);
 	}
 
 	async function connectWallet() {
@@ -101,21 +100,17 @@ function App() {
 
 		let txHash;
 		try {
-			console.log('Minting')
 
 			const gasLimit = 600000;
 			const NFTcontract = new ethers.Contract(NFTaddress, NFTabi, signer);
-			console.log('String for : ', hash)
 			const mintTx = await NFTcontract.safeMint(hash, { gasLimit: gasLimit });
 			const mintRx = await mintTx.wait();
 			txHash = mintRx.transactionHash;
 
 			// CHECK SMART CONTRACT STATE AGAIN
-			console.log(`- Contract executed. Transaction hash: \n${txHash} ✅`);
 		} catch (executeError) {
 			console.log(`- ${executeError.message.toString()}`);
 		}
-		// yahan
 	}
 
 	return (
@@ -127,9 +122,9 @@ function App() {
 					<Route path="/raffle" element={<Raffle />} />
 				</Routes>
 				
-				{/* <MyGroup fcn={connectWallet} buttonLabel={"Connect Wallet"} link={connectLinkSt} />
+				<MyGroup fcn={connectWallet} buttonLabel={"Connect Wallet"} link={connectLinkSt} />
 				<MyGroup fcn={contractDeploy} buttonLabel={"Deploy Contract"} text={contractTextSt} link={contractLinkSt} />
-				<MyGroup fcn={contractExecute} buttonLabel={"Execute Contract (+1)"} text={executeTextSt} link={executeLinkSt} /> */}
+				<MyGroup fcn={contractExecute} buttonLabel={"Execute Contract (+1)"} text={executeTextSt} link={executeLinkSt} />
 			</div>
 		</Router>
 	);
