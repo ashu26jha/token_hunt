@@ -51,12 +51,10 @@ export default function () {
 
             let fill = [];
             const data = await (await fetch(url)).json();
-            console.log(data)
             for (let i = 0; i < data.messages.length; i++) {
 
                 var b = Buffer.from(data.messages[i].message, 'base64')
                 var inputString = b.toString();
-                console.log(inputString)
                 const pairs = inputString.split(',');
                 const dataObject = {};
                 for (const pair of pairs) {
@@ -73,7 +71,6 @@ export default function () {
 
                 fill.push(formattedObject)
             }
-            console.log(fill)
             setRaffleDetails(fill);
         }
         getHedera();
@@ -81,7 +78,6 @@ export default function () {
         async function walletData() {
 
             const wData = await walletConnectFcn();
-            console.log(wData)
             setWalletData(wData);
             const provider = wData[1];
             const signer = provider.getSigner();
@@ -110,26 +106,20 @@ export default function () {
         let txHash;
         try {
             const gasLimit = 600000;
-            console.log('SSSSSSSSSSSSSSSS',NFTaddressInput);
 
             const NFTcontract = new ethers.Contract(NFTaddress, NFTabi, signer);
             const createApproveTx = await NFTcontract.setApprovalForAll(AIaddress, true, { gasLimit: gasLimit });
             const approveRx = await createApproveTx.wait();
-            console.log(approveRx);
-            console.log(approveRx)
-            console.log('AAAAAA')
             const AIcontract = new ethers.Contract(AIaddress, AIabi, signer);
 
             const createTx = await AIcontract.createRaffle(parseInt(tokenID), parseInt(amount), NFTaddressInput, { gasLimit: gasLimit });
             const mintRx = await createTx.wait();
-            console.log(createTx)
 
             txHash = mintRx.transactionHash;
 
             const topicid = '0.0.1074528';
 
             const message = `current:open,tokenId:${tokenID},amount:${amount},creator:${walletData[0]},image:${ipfsHash}`
-            console.log(message);
 
             let sendResponse = await new TopicMessageSubmitTransaction({
                 topicId: topicid,
@@ -139,10 +129,8 @@ export default function () {
             const getReceipt = await sendResponse.getReceipt(client);
 
             const transactionStatus = getReceipt.status
-            console.log("The message transaction status " + transactionStatus.toString())
 
             // CHECK SMART CONTRACT STATE AGAIN
-            console.log(`- Contract executed. Transaction hash: \n${txHash} ✅`);
         } catch (executeError) {
             console.log(`- ${executeError}`);
         }
@@ -152,19 +140,16 @@ export default function () {
         const provider = walletData[1];
         const signer = provider.getSigner();
         const gasLimit = 600000;
-        console.log(amount)
         try {
             const AIcontract = new ethers.Contract(AIaddress, AIabi, signer);
             const weiAmount = ethers.utils.parseEther(amount.toString());
             const createTx = await AIcontract.enterRaffle(parseInt(raffleId), { gasLimit: gasLimit, value: parseInt(weiAmount) });
             const mintRx = await createTx.wait();
-            console.log(mintRx);
 
         } catch (error) {
             console.log(error);
         }
 
-        console.log(raffleId);
     }
 
     async function drawWinner(raffleId) {
@@ -173,12 +158,8 @@ export default function () {
         const gasLimit = 600000;
         try {
             const AIcontract = new ethers.Contract(AIaddress, AIabi, signer);
-            console.log('Generating')
             const createTx = await AIcontract.generateWinner(0, parseInt(participants), parseInt(raffleId), { gasLimit: gasLimit });
             const mintRx = await createTx.wait();
-            console.log('Generated');
-
-            console.log(mintRx);
 
         } catch (error) {
             console.log(error);
@@ -193,20 +174,14 @@ export default function () {
 
         try {
             const AIcontract = new ethers.Contract(AIaddress, AIabi, signer);
-            console.log('Transfering NFT')
 
             const createTx = await AIcontract.winnerGetNFT(parseInt(raffleId), { gasLimit: gasLimit });
             const mintRx = await createTx.wait();
-            console.log('NFT transfered');
 
             const NFTtoken = await AIcontract.getRaffleTokenId(parseInt(raffleId), { gasLimit: gasLimit });
-            console.log(NFTtoken)
             const NFTcontract = new ethers.Contract(NFTaddress, NFTabi, signer);
             const owner = await NFTcontract.ownerOf(parseInt(NFTtoken.toString()));
 
-            console.log('OWNER OF NFT ', owner)
-
-            console.log(mintRx);
 
         } catch (error) {
             console.log(error);
@@ -218,29 +193,22 @@ export default function () {
             if (activePopupIndex != null) {
                 const provider = walletData[1];
                 const signer = provider.getSigner();
-                console.log(activePopupIndex)
                 const AIcontract = new ethers.Contract(AIaddress, AIabi, signer);
                 const createTx = await AIcontract.particantCount(parseInt(activePopupIndex))
 
                 const participantsArr = await AIcontract.getParticipants(parseInt(activePopupIndex));
-                console.log(participantsArr);
                 let winner;
-                // console.log(createTx)
                 if ((createTx.toString() != 0)) {
                     winner = await AIcontract.winner(parseInt(activePopupIndex));
                 }
 
                 if (participantsArr.includes(walletData[0])) {
-                    console.log('S')
                     setParticipation(true);
                 }
                 else {
-                    console.log('A')
                     setParticipation(false);
                 }
 
-                console.log(createTx)
-                console.log(activePopupIndex)
                 setParticipants(createTx.toString())
                 if (createTx.toString() == 0) {
                     setWinner('Not Decided')
